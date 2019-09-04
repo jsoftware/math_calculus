@@ -31,6 +31,7 @@ if. order=0 do. resstg vnofu else. 13!:8 (3) end.
 NB. Routine to handle unevaluable derivatives by approximation, or D:
 NB. x is amount to change eval point (0 is replaced by 1e_7)
 NB. y is eval point
+NB. Dyad only
 derivsecant =: 2 : 0
 NB. Get function to use: u. or higher-order secant 
 if. n = 1 do. func =. u.@] else. func =. u. derivsecant (n-1) end.
@@ -681,7 +682,7 @@ end.
 NB. resstg has the string form and order is the number of derivs unfinished.  Return appropriately
 NB. Parse the verb to create a verb
 NB. Return the verb itself if it's the right order, otherwise a call to the approximator
-if. order=0 do. resstg vnofu else. resstg vnofu derivsecant order end.
+if. order=0 do. resstg vnofu else. 0&(resstg vnofu derivsecant order) end.
 )
 
 NB. symbolic partial  derivative, in string form
@@ -759,7 +760,7 @@ NB. Canned table of derivatives for the primitive verbs
 
 )
 
-NB. Secant slope, like D.
+NB. Secant slope, like D:
 sslope =: 2 : 0
 assert. _1 = 4!:0 <'m'  NB. u is verb
 assert. 0 = 4!:0 <'n'  NB. v is a noun
