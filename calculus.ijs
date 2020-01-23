@@ -144,7 +144,7 @@ NB. modifier; process it if we know it
 yar =. > yar  NB. discard outer boxing
 select. {.yar
 case. <,'0' do.  NB. noun - should not occur
-case. <,'2' do.  NB. hhok - not supported
+case. <,'2' do.  NB. hook - not supported
 case. <,'3' do.  NB. fork
   'farg garg harg' =. yar&opstr&.> 0 1 2
   if. (<'[:') -: yar opar 0 do. derivstg garg atops harg return. end.   NB. [: g h
@@ -222,7 +222,9 @@ case. <,'"' do.  NB. rank
   else. (derivstg uop strofu) ranks nop return.
   end.
 
-case. <,'~' do.  NB. reflexive - these cases are rare & we ignore them
+case. <,'~' do.  NB. reflexive - only a few verbs supported
+  NB. Look it up in the derivative table
+  if. (#primrefvb) > primno =. primrefvb i. 1 {:: yar do. primno {:: primrefderiv return. end.
 end.
 13!:8 (3)   NB. Unknown or unprocessed modifier, fail
 )
@@ -291,6 +293,16 @@ NB. The derivative will be interpreted as an adverb, where m is the n from u&n
 % (%m)"0
 ^. (-^.m)&%@(* *:@^.)
 ^ m&*@(^&(m-1))
+)
+
+NB. Canned table of derivatives for reflexives
+'primrefvb primrefderiv' =: <"1 |: (({. ; deb@:}.)~ i.&' ');._2 (0 : 0)
++ 2"0
+* +:
+- 0"0
+^. 0"0
+% 0"0
+^ (^~ * >:@^.)"0
 )
 
 NB. Derivatives of m&o., with verb results
@@ -410,7 +422,9 @@ case. <,'"' do.  NB. rank
   else. (intstg uop strofu) ranks nop return.
   end.
 
-case. <,'~' do.  NB. reflexive - these cases are rare & we ignore them
+case. <,'~' do.  NB. reflexive - only a few verbs supported
+  NB. Look it up in the integral table
+  if. (#intrefvb) > primno =. intrefvb i. 1 {:: yar do. primno {:: refint return. end.
 end.
 13!:8 (3)   NB. Unknown or unprocessed modifier, fail
 )
@@ -481,6 +495,15 @@ NB. Canned table of integrals for u&n
 NB. The integral will be interpreted as an adverb, where m is the n from u&n
 'primintuandnvb primintuandn' =: <"1 |: (({. ; deb@:}.)~ i.&' ');._2 (0 : 0)
  %&(m+1)@(^&(m+1))`^.@.(m-:_1)
+)
+
+NB. Canned table of integrals for reflexive verbs
+'intrefvb refint' =: <"1 |: (({. ; deb@:}.)~ i.&' ');._2 (0 : 0)
++ *:
+* 0 0 0 0.33333333333333331&p.
+- 0:
+^. 0:
+% ]
 )
 
 NB. Integrals of m&o., with verb results
