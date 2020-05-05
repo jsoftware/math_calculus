@@ -34,7 +34,7 @@ NB. y is eval point
 NB. Dyad only
 derivsecant =: 2 : 0
 NB. Get function to use: u. or higher-order secant 
-if. n = 1 do. func =. u.@] else. func =. u. derivsecant (n-1) end.
+if. n = 1 do. func =. u.@] else. func =. u. derivsecant_jcalculus_ (n-1) end.
 NB. x must be an atom or conform to shape of y
 if. 0=#@$x do. x =. ($y)$x end.  NB. replicate atom
 assert. x -:&$ y  NB. shapes must agree
@@ -705,7 +705,7 @@ end.
 NB. resstg has the string form and order is the number of derivs unfinished.  Return appropriately
 NB. Parse the verb to create a verb
 NB. Return the verb itself if it's the right order, otherwise a call to the approximator
-if. order=0 do. resstg vnofu else. 0&(resstg vnofu derivsecant order) end.
+if. order=0 do. resstg vnofu else. 0&(resstg vnofu derivsecant_jcalculus_ order) end.
 )
 
 NB. symbolic partial  derivative, in string form
@@ -789,7 +789,7 @@ assert. _1 = 4!:0 <'m'  NB. u is verb
 assert. 0 = 4!:0 <'n'  NB. v is a noun
 assert. 0 = #$n  NB. n is an atom
 assert. n > 0   NB. n > 0
-(u. derivsecant n)"(u. f. b. 0)
+(u. derivsecant_jcalculus_ n)"(u. f. b. 0)
 )
 
 0 : 0  NB. Sample sentences
