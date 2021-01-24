@@ -156,7 +156,7 @@ case. <,'3' do.  NB. fork
   case. <,'*' do. (df ftymes harg) fplus (farg ftymes dh) return.  NB. product rule
   case. <,',' do. '(',df,') , (',dh,')' return.
   case. <,'%' do. ((df ftymes harg) fminus (farg ftymes dh)) fdiv '*:' atops harg return.  NB. quotient rule
-  case. <,'^' do. NB. no support for f ^ h
+  case. <,'^' do. ((dh ftymes ( '^.' atops farg)) fplus ((harg ftymes df) fdiv  farg)) ftymes (farg fexp harg)  return. NB. (f^g)' = (^ (g * ^. f))' 
   end.
 
 case. <,'&' do.  NB. & - first check for bonded constant
@@ -165,7 +165,12 @@ case. <,'&' do.  NB. & - first check for bonded constant
     verbarg =. (yar opar 1)  NB. v as an AR
     if. verbarg -: <'p.' do.   NB. Handle p. as a special case
       if. 0 (< L.) nounarg do. nounarg =. p. nounarg end.  NB. convert multiplier or multinomial form to coeffs
-      (": (* #\)@}. nounarg),'&p.' return.   NB. take the derivative and return
+      coeffs=. ": (* #\)@}. nounararg
+      NB. special case for 0&p. 
+      if. coeffs=. -: '' do. '0&p.' return.
+      else.
+        coeffs,'&p.' return.
+      end.
     end.
     if. *@#@$ nounarg do. 13!:8 (3) end. NB. except for p. only atomic m is recognized
     NB. Look it up in the derivative table, execute it on m, return string result
