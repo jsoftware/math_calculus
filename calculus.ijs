@@ -75,6 +75,10 @@ fdiv =: 4 : 0
 '((',x,')%(',y,'))'
 )
 
+fexp =: 4 : 0
+'((',x,')^(',y,'))'
+)
+
 NB. Operand y of AR x, as an AR
 opar =: 4 : 0"_ 0
 y { 1 {:: x
