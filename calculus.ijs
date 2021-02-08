@@ -38,7 +38,7 @@ if. n = 1 do. func =. u.@] else. func =. u. derivsecant_jcalculus_ (n-1) end.
 NB. x must be an atom or conform to shape of y
 if. 0=#@$x do. x =. ($y)$x end.  NB. replicate atom
 assert. x -:&$ y  NB. shapes must agree
-x =. x + 1e_7 * 0 = x  NB. replace 0 by epsilon
+x =. x + ((1e_7"0)`(1r10000000"0) @. (64 128 e.~ 3!:0) y) * 0 = x  NB. replace 0 by epsilon; preserve rationality.
 newy =. y +"(#@$y) (,~$x) $ (#~  1 j. #) ,x  NB. array of moved points, each an array with 1 nonzero
 f0 =. x func y  NB. the function at the initial point
 ((x func"(#@$y) newy) -"(#@$f0) f0) % x   NB. evaluate function at moved points, calc slope.  x used only for higher orders
@@ -103,7 +103,7 @@ vnofaru =: 5!:0
 
 NB. Convert string u to verb/noun
 vnofu =: 1 : 0
-". 'Xvcv98df9d =. ' , u  NB. This sets noun result
+(0!:100) 'Xvcv98df9d =. ' , u  NB. This sets noun result
 if. 0 ~: 4!:0 <'Xvcv98df9d' do. Xvcv98df9d f. end.  NB. This sets verb result
 )
 
