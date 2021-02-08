@@ -169,9 +169,9 @@ case. <,'&' do.  NB. & - first check for bonded constant
     verbarg =. (yar opar 1)  NB. v as an AR
     if. verbarg -: <'p.' do.   NB. Handle p. as a special case
       if. 0 (< L.) nounarg do. nounarg =. p. nounarg end.  NB. convert multiplier or multinomial form to coeffs
-      coeffs=. ": (* #\)@}. nounararg
+      coeffs=. ": (* #\)@}. nounarg
       NB. special case for 0&p. 
-      if. coeffs=. -: '' do. '0&p.' return.
+      if. coeffs -: '' do. '0&p.' return.
       else.
         coeffs,'&p.' return.
       end.
