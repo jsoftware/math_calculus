@@ -47,9 +47,18 @@ f0 =. x func y  NB. the function at the initial point
 NB. x and y are linear reps of functions
 NB. Result is linear rep of their product
 NB. Someday we may combine polynomials etc
-ftymes =: 4 : 0
-'((',x,')*(',y,'))'
-)
+NB. simplifies some common cases
+ftymes=: {{
+  if.iszeros x do. x
+  elseif.isones x do. y
+  elseif.isnones x do. '-' atops y
+  elseif.iszeros y do. y
+  elseif.isones y do. x
+  elseif.isnones y do. '-' atops x
+  else.'((',x,')*(',y,'))'
+  end.
+}}
+
 fmp =: 4 : 0  NB. same but matrix  product
 '((',x,') +/ . * (',y,'))'
 )
@@ -112,7 +121,36 @@ strofu =: f. 1 : '5!:5 <''u'''
 
 NB. x and y are string forms of verb
 NB. Result is x@y in string form
-atops =: '(',[,')@(',],')'"_
+NB. simplifies some common cases
+atops =: {{
+  if. isconstants x
+  do. x return.
+  elseif.'-'-:&;:x do.
+    if. 5<#toks=.;:y do.
+      if.(;:'-@()') -: 0 1 2 _1 { ;: y do.
+        (1+y i.'(') }. (y i:')') {. y return.
+      end.
+    end.
+  end.
+  '(',x,')@(',y,')'
+}}
+
+isconstants=: {{
+  NB. '_1"0' or '0"0' or similar
+  toks=. ;:y
+  if.3=#toks do.
+    if.(}.toks)-:;:'"0' do.
+      if. (;y arofstringu) opisnoun 0 do.
+        1 return.
+      end.
+    end.
+  end.
+  0
+}}
+
+iszeros=: -:&'0"0'
+isones=: -:&'1"0'
+isnones=: -:&'_1"0'
 
 NB. y is f;g;h, string forms
 NB. Result is fork in string form
