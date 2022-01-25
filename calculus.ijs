@@ -145,7 +145,7 @@ atops =: {{
   if. isconstants x
   do. x return.
   else. a=.y arofstringu
-    if. 1 1 0 matchsignature a armatch {.-@%`''do.
+    if. 1 1 0 matchsignature a armatch -@% arofu do.
       (<(0;1;1) {:: a) vnofaru strofu return.
     end.
   end.
@@ -156,7 +156,7 @@ NB. pessimistic:
 NB. may return 0 for some strings representing nouns
 isconstants=: {{
   NB. '_1"0' or '0"0' or similar
-  1 1 0 1 1 matchsignature y arofstringu armatch {.0"0`''
+  1 1 0 1 1 matchsignature y arofstringu armatch 0"0 arofu
 }}
 
 iszeros=: -:&'0"0'
