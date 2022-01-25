@@ -138,6 +138,22 @@ matchsignature=: {{
   end.
 }}
 
+NB. u is an ar, a string or a verb
+arofmoru=: {{
+  if. 0=nc<'m' do.
+    if. L. m do. m
+    else. m arofstringu
+    end.
+  else. u f. arofu
+  end.
+}}
+
+NB. determine if two functions match to a required degree
+NB. y is an armatch signature
+matches=: {{
+  y matchsignature u arofmoru armatch v arofmoru
+}}
+  
 NB. x and y are string forms of verb
 NB. Result is x@y in string form
 NB. simplifies some common cases
@@ -145,7 +161,7 @@ atops =: {{
   if. isconstants x
   do. x return.
   else. a=.y arofstringu
-    if. 1 1 0 matchsignature a armatch -@% arofu do.
+    if. -@% matches a 1 1 0 do.
       (<(0;1;1) {:: a) vnofaru strofu return.
     end.
   end.
@@ -156,7 +172,7 @@ NB. pessimistic:
 NB. may return 0 for some strings representing nouns
 isconstants=: {{
   NB. '_1"0' or '0"0' or similar
-  1 1 0 1 1 matchsignature y arofstringu armatch 0"0 arofu
+  0"0 matches y 1 1 0 1 1
 }}
 
 iszeros=: -:&'0"0'
