@@ -127,6 +127,15 @@ armatch=: {{
   end.
 }}
 
+matchsignature=: {{
+  t=.]S:0 y
+  if.x -:&$ t do.
+    */,x<:t
+  else.
+    0
+  end.
+}}
+
 NB. x and y are string forms of verb
 NB. Result is x@y in string form
 NB. simplifies some common cases
@@ -134,7 +143,7 @@ atops =: {{
   if. isconstants x
   do. x return.
   else. a=.y arofstringu
-    if. */2{. ]S:0 a armatch {.-@%`''do.
+    if. 1 1 0 matchsignature a armatch {.-@%`''do.
       (<(0;1;1) {:: a) vnofaru strofu return.
     end.
   end.
@@ -145,15 +154,7 @@ NB. pessimistic:
 NB. may return 0 for some strings representing nouns
 isconstants=: {{
   NB. '_1"0' or '0"0' or similar
-  toks=. ;:y
-  if.3=#toks do.
-    if.(}.toks)-:;:'"0' do.
-      if. (;y arofstringu) opisnoun 0 do.
-        1 return.
-      end.
-    end.
-  end.
-  0
+  1 1 0 1 1 matchsignature y arofstringu armatch {.0"0`''
 }}
 
 iszeros=: -:&'0"0'
