@@ -127,7 +127,7 @@ atops =: {{
   do. x return.
   elseif.'-'-:&;:x do.
     if. 5<#toks=.;:y do.
-      if.(*/2}.}:*+/\+/1 _1*'()'=/y) * (;:'-@()') -: 0 1 2 _1 { ;: y do.
+      if.(;:'-@')-:((1;0)&{::;0&{::);y arofstringu_jcalculus_ do.
         (1+y i.'(') }. (y i:')') {. y return.
       end.
     end.
