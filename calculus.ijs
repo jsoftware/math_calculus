@@ -119,18 +119,23 @@ if. 0 ~: 4!:0 <'Xvcv98df9d' do. Xvcv98df9d f. end.  NB. This sets verb result
 NB. Convert verb/noun u to string.  Must fix first in case u is a name
 strofu =: f. 1 : '5!:5 <''u'''
 
+NB. for testing partial matches between two atomic representations
+armatch=: {{
+  if. 0 e. x,&L. y do. x-:y
+  elseif. x -:&$ y do. x armatch each y
+  else. 0
+  end.
+}}
+
 NB. x and y are string forms of verb
 NB. Result is x@y in string form
 NB. simplifies some common cases
 atops =: {{
   if. isconstants x
   do. x return.
-  elseif.'-'-:&;:x do.
-    if. 5<#toks=.;:y do.
-      a=. ;y arofstringu
-      if.(;:'-@')-:((1;0)&{::;0&{::)a do.
-        (<(1;1) {:: a) vnofaru strofu return.
-      end.
+  else. a=.y arofstringu
+    if. */2{. ]S:0 a armatch {.-@%`''do.
+      (<(0;1;1) {:: a) vnofaru strofu return.
     end.
   end.
   '(',x,')@(',y,')'
