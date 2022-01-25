@@ -136,6 +136,8 @@ atops =: {{
   '(',x,')@(',y,')'
 }}
 
+NB. pessimistic: 
+NB. may return 0 for some strings representing nouns
 isconstants=: {{
   NB. '_1"0' or '0"0' or similar
   toks=. ;:y
