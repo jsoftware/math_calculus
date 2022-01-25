@@ -127,6 +127,8 @@ armatch=: {{
   end.
 }}
 
+NB. y is a result from armatch
+NB. x indicates required matching elements
 matchsignature=: {{
   t=.]S:0 y
   if.x -:&$ t do.
