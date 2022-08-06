@@ -802,10 +802,10 @@ NB. Canned table of derivatives for the primitive verbs
 
 NB. Secant slope, like D:
 sslope =: 2 : 0
-if. _1 ~: 4!:0 <'m' do. domerr REPORT=: 3;'u most be a verb' end.  NB. u is verb
-if.  0 ~: 4!:0 <'n' do. domerr REPORT=: 3;'n must be a noun' end.  NB. v is a noun
-if. 0 ~: #$n        do. domerr REPORT=: 3;'n must be an atom' end. NB. n is an atom
-if. n <: 0          do. domerr REPORT=: 3;'n must be larger than 0' end. NB. n > 0
+if. _1 ~: 4!:0 <'m' do. FANCY error REPORT=: 3;'u most be a verb' end.  NB. u is verb
+if.  0 ~: 4!:0 <'n' do. FANCY error REPORT=: 3;'n must be a noun' end.  NB. v is a noun
+if. 0 ~: #$n        do. FANCY error REPORT=: 3;'n must be an atom' end. NB. n is an atom
+if. n <: 0          do. FANCY error REPORT=: 3;'n must be larger than 0' end. NB. n > 0
 (u. derivsecant_jcalculus_ n)"(u. f. b. 0)
 )
 
