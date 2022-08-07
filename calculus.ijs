@@ -405,7 +405,7 @@ fcase. ;:'&:@@:' do.  NB. f@g (verb only)
         ((<: #upoly) 1 : (primno {:: primintpatopint)) strofu return.
       end.
     end.
-    NB. If unintegrable rimitive, fail
+    NB. If unintegrable primitive, fail
     domerr REPORT=: 3;'unintegrable combination: ',y,' '
   end.
 
