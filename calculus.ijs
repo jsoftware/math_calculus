@@ -221,7 +221,7 @@ case. ;:'&:@@:' do.  NB. chain rule, including fallthrough from &
   vop =. yar opstr 1   NB. the verb as a verb
   (derivstg vop) ftymes (derivstg uop) atops vop return.
 
-case. und =.;:'&.&.:' do. NB. under use equivalent u&.v <-> v inv @: u @: v
+case. und =.;:'&.&.:' do. NB. under; uses equivalent u&.v <-> v inv @: u @: v
   con =. und i. {.yar NB. 1 if colon needed, replace @ by @: if so below: TODO rationale, see ats.
   if. yar opisnoun 1 do.
     domerr REPORT =: 3;'v must be verb in ',({.yar),'v (semi-duals not supported) in: ',y,' '
@@ -390,8 +390,10 @@ case. <,'3' do.  NB. fork
   select. garg NB. middle verb
   case. <,'+' do. if. pf *.&(*&#) ph do. intstg pf pplus  ph else. forks (intstg farg);garg;(intstg harg) end. return.
   case. <,'-' do. if. pf *.&(*&#) ph do. intstg pf pminus ph else. forks (intstg farg);garg;(intstg harg) end. return.`
-  case. <,'*' do. if. pf *.&(*&#) ph do. intstg pf ptymes ph elseif. (yar opisnoun 0) +. pf +.&(1=#) ph do. NB. N*V, const*V or V*const cases.
-    forks (intstg farg);garg;(intstg harg) end. return.
+  case. <,'*' do. if. pf *.&(*&#) ph do. intstg pf ptymes ph return.
+                  elseif. (yar opisnoun 0) +. 1=#pf do. forks        farg;garg;(intstg harg) return. NB. N*V, const*V cases.
+                  elseif.                     1=#ph do. forks (instg farg;garg;harg          return. NB. V*const      case.
+                  end.
   end.
 
 fcase. <,'&' do.  NB. & - first check for bonded constant
@@ -419,13 +421,13 @@ fcase. <,'&' do.  NB. & - first check for bonded constant
   NB. fallthrough cases are u&v
 
 case. ;:'&:@@:' do.  NB. f@g (verb only)
-NB.   TODO ^@:+: is a straightforward integral, yet not supported...
+NB.   TODO ^@:+: seems a straightforward integral, yet not supported...
   if. # upoly =. topoly yar opar 0 do.  NB. if f is a polynomial
-    if. (-: 1 {.~ -@#)* upoly do. NB. Handles (n 1)#0 M poly's
+    if. (-: 1 {.~ -@#)* upoly do. NB. Handles poly's of form (n 1)#0 M
       const =. ":{:upoly
       if. 1 = #upoly do. const,'&*' return. end.  NB. Handle m&p.@g = (m"_)@g
       vop =. yar opstr 1   NB. v as a string
-      if. 2 = #upoly do. intstg const,'*',vop return. end. NB. 0 1 is ]@g
+      if. 2 = #upoly do. intstg const,'*',vop return. end. NB. 0 1 is ]@g, 0 M is (M*g)
       NB. Handle f = ^&m for the cases we know
       if. (#primintpatopvb) > primno =. primintpatopvb i. <vop do.
         ((<: #upoly) 1 : (primno {:: primintpatopint)) strofu return.
@@ -435,8 +437,8 @@ NB.   TODO ^@:+: is a straightforward integral, yet not supported...
     domerr REPORT=: 3;'unintegrable combination: ',y,' '
   end.
 
-case. und =.;:'&.&.:' do. NB. under use equivalent u&.v <-> v inv @: u @: v
-  con =. und i. {.yar NB. 1 if colon needed, replace @ by @: if so below: TODO rationale, see ats.
+case. und =.;:'&.&.:' do. NB. under; uses equivalent u&.v <-> v inv @: u @: v
+  con =. und i. {.yar NB. 1 if colon needed, replace @ by @: if so below: rationale, see ats.
   if. yar opisnoun 1 do.
     domerr REPORT =: 3;'v must be verb in ',({.yar),'v (semi-duals not supported) in: ',y,' '
   end. NB. TODO: support semiduals (only if &. ever makes it into middle verbs, since u&.(semidual) is dyad only).
@@ -657,8 +659,8 @@ case. ;:'&:@@:' do.
   if. 0 = f *.&# h do. '' return. end. NB. f and h must be polynomials
   +/ f * h pexp"_ 0 i. #f return.
 
-case. und =.;:'&.&.:' do. NB. under use equivalent u&.v <-> v inv @: u @: v
-  con =. und i. {.yar NB. 1 if colon needed, replace @ by @: if so below: TODO rationale, see ats.
+case. und =.;:'&.&.:' do. NB. under; uses equivalent u&.v <-> v inv @: u @: v
+  con =. und i. {.yar NB. 1 if colon needed, replace @ by @: if so below: rationale, see ats.
   if. yar opisnoun 1 do.
     domerr REPORT =: 3;'v must be verb in ',({.yar),'v (semi-duals not supported) in: ',y,' '
   end. NB. TODO: support semiduals (only if &. ever makes it into middle verbs, since u&.(semidual) is dyad only).
@@ -814,22 +816,22 @@ fcase. <,'&' do.  NB. &
   if. yar opisnoun 0 do.   NB. m&v  (v must be a verb)
     nounarg =. (yar opar 0) vnofaru  NB. m
     verbarg =. (yar opar 1)  NB. v as an AR
-    if. verbarg e. ;:'|. |: { A. C.' do.   NB. perm type TODO add others (e.g. m&#) and, in case, inverses (e.g. 3&A.)
+    NB. TODO Fix required for |. Leads to length errors for e.g. +:@(1 0&|.)
+    NB. TODO same for |: (likely anything changing rank)
+    if. verbarg e. ;:'|. |: { A. C.' do.   NB. perm type TODO add others (e.g. m&#) and, in case, inverses (e.g. 3&A.inv)
       '(=/ ',y,')@(i.@$)' return.
     end.
     domerr REPORT=: 3; 'm& in ',y,'not allowed'
   end.
-  echo'fallen through'
   NB. fallthrough cases are u&v
 
-case. ;:'&:@@:' do.  NB. chain rule, including fallthrough from &
+case. ;:'&:@@:' do.  NB. chain rule, including fallthrough from & (u&v)
   if. yar opisnoun 1 do. domerr REPORT=:3;'v in &:v, @v or @:v must be verb in ',y end. NB. v must be a verb
   uop =. yar opstr 0   NB. the verb as a string
   vop =. yar opstr 1   NB. the verb as a verb
-  NB. TODO: verify generality: e.g. (_2 _1&|.)@:(+:)@:(2 1&|.) does not work (length error when executing result)
   (pderivstg vop) fmp (pderivstg uop) atops vop return.
 
-case. und =.;:'&.&.:' do. NB. under use equivalent u&.v <-> v inv @: u @: v
+case. und =.;:'&.&.:' do. NB. under; uses equivalent u&.v <-> v inv @: u @: v
   con =. und i. {.yar NB. 1 if colon needed, replace @ by @: if so below: TODO rationale, see ats.
   if. yar opisnoun 1 do.
     domerr REPORT =: 3;'v must be verb in ',({.yar),'v (semi-duals not supported) in: ',y,' '
@@ -848,7 +850,7 @@ case. <,'"' do. NB. rank TODO: fix for e.g. "+
 case. <,'~' do.  NB. reflexive - these cases are rare & we ignore them TODO: don't.
 end.
 NB. TODO +/ omitted
-NB. TODO: MATRIX MULTIPLICATION! I'd say essential!
+NB. TODO: (bound) MATRIX MULTIPLICATION! I'd say essential!
 domerr REPORT =: 3;'unknown or unprocessed modifier ',>{.yar   NB. Unknown or unprocessed modifier, fail
 )
 
