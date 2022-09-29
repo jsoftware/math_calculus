@@ -111,7 +111,7 @@ vnofaru =: 5!:0
 NB. Convert string u to verb/noun
 vnofu =: 1 : 0
 (0!:100) 'Xvcv98df9d =. ' , u
-if. 0 ~: 4!:0 <'Xvcv98df9d' do. Xvcv98df9d f. else. Xvcv98df9d end.
+if. 0 ~: 4!:0 <'Xvcv98df9d' do. Xvcv98df9d f. else. Xvcv98df9d end. NB. return verb or noun
 )
 
 NB. Convert verb/noun u to string.  Must fix first in case u is a name
@@ -176,11 +176,6 @@ case. <,'3' do.  NB. fork
   case. <,'%' do. ((df ftymes harg) fminus (farg ftymes dh)) fdiv '*:' atops harg return.  NB. quotient rule
   case. <,'^' do. ((dh ftymes ( '^.' atops farg)) fplus ((harg ftymes df) fdiv  farg)) ftymes (farg fexp harg)  return. NB. (f^g)' = (^ (g * ^. f))'
   end.
-  NB. TODO: Add cases for modified middle verb (Start with colon versions of @, & and &.)
-  NB. f u@:g h   <=> [: u f g h
-  NB. f g~    h  <=> h g f
-  NB. f g&:v  h <=> f@:v g h@:v
-  NB. f g&.:v h <=> [: v^:_1 f g&:v h (note: later semiduals)
 
 fcase. <,'&' do.  NB. & - first check for bonded constant
   if. yar opisnoun 0 do.   NB. m&v  (v must be a verb)
@@ -222,7 +217,7 @@ case. ;:'&:@@:' do.  NB. chain rule, including fallthrough from &
   (derivstg vop) ftymes (derivstg uop) atops vop return.
 
 case. und =.;:'&.&.:' do. NB. under; uses equivalent u&.v <-> v inv @: u @: v
-  con =. und i. {.yar NB. 1 if colon needed, replace @ by @: if so below: TODO rationale, see ats.
+  con =. und i. {.yar NB. 1 if colon needed, replace @ by @: if so below: rationale, see ats.
   if. yar opisnoun 1 do.
     domerr REPORT =: 3;'v must be verb in ',({.yar),'v (semi-duals not supported) in: ',y,' '
   end. NB. TODO: support semiduals (only if &. ever makes it into middle verbs, since u&.(semidual) is dyad only).
@@ -389,7 +384,7 @@ case. <,'3' do.  NB. fork
   pf =. topoly farg [ ph =. topoly harg
   select. garg NB. middle verb
   case. <,'+' do. if. pf *.&(*&#) ph do. intstg pf pplus  ph else. forks (intstg farg);garg;(intstg harg) end. return.
-  case. <,'-' do. if. pf *.&(*&#) ph do. intstg pf pminus ph else. forks (intstg farg);garg;(intstg harg) end. return.`
+  case. <,'-' do. if. pf *.&(*&#) ph do. intstg pf pminus ph else. forks (intstg farg);garg;(intstg harg) end. return.
   case. <,'*' do. if. pf *.&(*&#) ph do. intstg pf ptymes ph return.
                   elseif. (yar opisnoun 0) +. 1=#pf do. forks        farg;garg;(intstg harg) return. NB. N*V, const*V cases.
                   elseif.                     1=#ph do. forks (instg farg;garg;harg          return. NB. V*const      case.
@@ -832,7 +827,7 @@ case. ;:'&:@@:' do.  NB. chain rule, including fallthrough from & (u&v)
   (pderivstg vop) fmp (pderivstg uop) atops vop return.
 
 case. und =.;:'&.&.:' do. NB. under; uses equivalent u&.v <-> v inv @: u @: v
-  con =. und i. {.yar NB. 1 if colon needed, replace @ by @: if so below: TODO rationale, see ats.
+  con =. und i. {.yar NB. 1 if colon needed, replace @ by @: if so below: rationale, see ats.
   if. yar opisnoun 1 do.
     domerr REPORT =: 3;'v must be verb in ',({.yar),'v (semi-duals not supported) in: ',y,' '
   end. NB. TODO: support semiduals (only if &. ever makes it into middle verbs, since u&.(semidual) is dyad only).
