@@ -6,7 +6,7 @@ DESCRIPTION=: 0 : 0
 Conjunctions to perform differentiation and integration of J verbs, and secant-slope approximation for verbs that cannot be handled symbolically
 )
 
-VERSION=: '1.0.6'
+VERSION=: '1.0.7'
 
 FILES=: 0 : 0
 calculus.ijs
@@ -14,4 +14,4 @@ calculus.ijs
 
 FOLDER=: 'math/calculus'
 
-RELEASE=: 'j901'
+RELEASE=: 'j902'

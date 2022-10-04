@@ -54,9 +54,18 @@ f0 =. x func y  NB. the function at the initial point
 NB. x and y are linear reps of functions
 NB. Result is linear rep of their product
 NB. Someday we may combine polynomials etc
-ftymes =: 4 : 0
-'((',x,')*(',y,'))'
-)
+NB. simplifies some common cases
+ftymes=: {{
+  if.iszeros x do. x
+  elseif.isones x do. y
+  elseif.isnones x do. '-' atops y
+  elseif.iszeros y do. y
+  elseif.isones y do. x
+  elseif.isnones y do. '-' atops x
+  else.'((',x,')*(',y,'))'
+  end.
+}}
+
 fmp =: 4 : 0  NB. same but matrix  product
 '((',x,') +/ . * (',y,'))'
 )
@@ -117,9 +126,65 @@ if. 0 ~: 4!:0 <'Xvcv98df9d' do. Xvcv98df9d f. else. Xvcv98df9d end. NB. return v
 NB. Convert verb/noun u to string.  Must fix first in case u is a name
 strofu =: f. 1 : '5!:5 <''u'''
 
+NB. for testing partial matches between two atomic representations
+armatch=: {{
+  if. 0 e. x,&L. y do. x-:y
+  elseif. x -:&$ y do. x armatch each y
+  else. 0
+  end.
+}}
+
+NB. y is a result from armatch
+NB. x indicates required matching elements
+matchsignature=: {{
+  t=.]S:0 y
+  if.x -:&$ t do.
+    */,x<:t
+  else.
+    0
+  end.
+}}
+
+NB. u is an ar, a string or a verb
+arofmoru=: {{
+  if. 0=nc<'m' do.
+    if. L. m do. m
+    else. m arofstringu
+    end.
+  else. u f. arofu
+  end.
+}}
+
+NB. determine if two functions match to a required degree
+NB. y is an armatch signature
+matches=: {{
+  y matchsignature u arofmoru armatch v arofmoru
+}}
+  
 NB. x and y are string forms of verb
 NB. Result is x@y in string form
-atops =: '(',[,')@(',],')'"_
+NB. simplifies some common cases
+atops =: {{
+  if. isconstants x
+  do. x return.
+  else. a=.y arofstringu
+    if. -@% matches a 1 1 0 do.
+      (<(0;1;1) {:: a) vnofaru strofu return.
+    end.
+  end.
+  '(',x,')@(',y,')'
+}}
+
+NB. pessimistic: 
+NB. may return 0 for some strings representing nouns
+isconstants=: {{
+  NB. '_1"0' or '0"0' or similar
+  0"0 matches y 1 1 0 1 1
+}}
+
+iszeros=: -:&'0"0'
+isones=: -:&'1"0'
+isnones=: -:&'_1"0'
 
 NB. x and y are string forms of verb
 NB. Result is x@:y in string form
