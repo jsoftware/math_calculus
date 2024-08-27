@@ -1,6 +1,6 @@
-NB. Calculus: derivative, partial derivative, secant slope
-NB. deriv, pderiv, sslope
-NB. Interface is like d., D., D:   sample sentences at end of file
+NB. Calculus: derivative, partial derivative, secant slope, Taylor, weighted Taylor
+NB. deriv, pderiv, sslope, taylor, wtaylor
+NB. Interface is like former d., D., D:, t., t:   sample sentences at end of file
 
 cocurrent 'jcalculus'
 FANCY   =: 1 NB. setting triggering display of fancy errors, rather than a plain domain error
@@ -866,10 +866,18 @@ if. n <: 0          do. FANCY error REPORT=: 3;'n must be larger than 0' end. NB
 (u. derivsecant_jcalculus_ n)"(u. f. b. 0)
 )
 
+NB. Weighted Taylor, like t:
+wtaylor_jcalculus_  =: {{ (u. deriv y) 0 }}"0
+
+NB. Standard Taylor, like t.
+taylor_jcalculus_ =: {{ (u. wtaylor y) % !y }}"0
+ 
 NB. export relevant verbs to z
 deriv_z_ =: deriv_jcalculus_
 pderiv_z_ =: pderiv_jcalculus_
 sslope_z_ =: sslope_jcalculus_
+taylor_z_ =: taylor_jcalculus_
+wtaylor_z_ =: wtaylor_jcalculus_
 
 0 : 0  NB. Sample sentences
 *: deriv 1
@@ -877,4 +885,6 @@ sslope_z_ =: sslope_jcalculus_
 *: pderiv 1
 *:"_ pderiv 1
 0.0005 +/@:(1 2&*) sslope 1 i. 2 3
+^ taylor i. 5
+^ wtaylor i. 5
 )
