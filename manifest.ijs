@@ -14,4 +14,4 @@ calculus.ijs
 
 FOLDER=: 'math/calculus'
 
-RELEASE=: 'j901'
+RELEASE=: 'j902'
